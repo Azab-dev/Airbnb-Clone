@@ -1,0 +1,30 @@
+@import "tailwindcss";
+
+@layer components {
+  .container {
+    @apply mx-auto w-full;
+  }
+
+  @media (min-width: 640px) {
+    .container {
+      @apply w-[540px];
+    }
+  }
+
+  @media (min-width: 768px) {
+    .container {
+      @apply w-[720px];
+    }
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .filter-btn {
+    @apply px-4 py-2 border border-gray-300 rounded-full cursor-pointer hover:shadow-lg active:scale-95 active:bg-gray-100 transform transition duration-100 ease-out;
+  }
+}
