@@ -5,12 +5,12 @@ import Footer from "../components/Footer";
 import ListingCard from "../components/ListingCard";
 import Map from "../components/Map";
 
-type SearchParams = {
-  location?: string;
-  startDate?: string;
-  endDate?: string;
-  numberOfGuests?: string;
-};
+// type SearchParams = {
+//   location?: string;
+//   startDate?: string;
+//   endDate?: string;
+//   numberOfGuests?: string;
+// };
 interface Listing {
   img: string;
   title: string;
@@ -21,11 +21,15 @@ interface Listing {
   star: number;
 }
 
-const SearchResult = async ({
-  searchParams,
-}: {
-  searchParams: SearchParams;
-}) => {
+type Props = {
+  searchParams: {
+    location?: string;
+    startDate?: string;
+    endDate?: string;
+    numberOfGuests?: string;
+  };
+};
+const SearchResult = async ({ searchParams }: Props) => {
   const { location = "", startDate = "", endDate = "", numberOfGuests = "" } = searchParams;
 
   let formatedStartDate = "";
