@@ -7,20 +7,17 @@ import { searchResultData } from "../types/app";
 import ListingCard from "../components/ListingCard";
 import Map from "../components/Map";
 
-// const Map = dynamic(() => import('../components/Map'), {  ssr: false,});
-
-type searchParamsProps = {
-  location: string;
-  startDate: string;
-  endDate: string;
-  numberOfGuests: string;
+type Props = {
+  searchParams: {
+    location: string;
+    startDate: string;
+    endDate: string;
+    numberOfGuests: string;
+  };
 };
+const SearchResult = async ({ searchParams }: Props) => {
+  const { location, startDate, endDate, numberOfGuests } = searchParams;
 
-const SearchResult = async ({
-  searchParams: { location, startDate, endDate, numberOfGuests },
-}: {
-  searchParams: searchParamsProps;
-}) => {
   let formatedStartDate;
   let formatedEndDate;
   if (startDate && endDate) {
