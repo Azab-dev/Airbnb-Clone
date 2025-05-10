@@ -5,7 +5,7 @@ import Footer from "../components/Footer";
 import ListingCard from "../components/ListingCard";
 import Map from "../components/Map";
 
-// type SearchParams = {
+// type SearchQueryParams  = {
 //   location?: string;
 //   startDate?: string;
 //   endDate?: string;
@@ -22,15 +22,15 @@ interface Listing {
 }
 
 type Props = {
-  searchParams: {
+  SearchQueryParams : {
     location?: string;
     startDate?: string;
     endDate?: string;
     numberOfGuests?: string;
   };
 };
-const SearchResult = async ({ searchParams }: Props) => {
-  const { location = "", startDate = "", endDate = "", numberOfGuests = "" } = searchParams;
+const SearchResult = async ({ SearchQueryParams  }: Props) => {
+  const { location = "", startDate = "", endDate = "", numberOfGuests = "" } = SearchQueryParams ;
 
   let formatedStartDate = "";
   let formatedEndDate = "";
