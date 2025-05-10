@@ -9,10 +9,10 @@ import Map from "../components/Map";
 
 type Props = {
   searchParams: {
-    location: string;
-    startDate: string;
-    endDate: string;
-    numberOfGuests: string;
+    location?: string;
+    startDate?: string;
+    endDate?: string;
+    numberOfGuests?: string;
   };
 };
 const SearchResult = async ({ searchParams }: Props) => {
