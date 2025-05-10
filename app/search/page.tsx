@@ -1,9 +1,7 @@
-import React from "react";
-import Header from "./../components/header/Header";
-import Footer from "../components/Footer";
 import { format } from "date-fns";
 import { getSearchResult } from "../utils/api";
-import { searchResultData } from "../types/app";
+import Header from "../components/header/Header";
+import Footer from "../components/Footer";
 import ListingCard from "../components/ListingCard";
 import Map from "../components/Map";
 
@@ -13,12 +11,21 @@ type SearchParams = {
   endDate?: string;
   numberOfGuests?: string;
 };
+interface Listing {
+  img: string;
+  title: string;
+  description: string;
+  location: string;
+  total: string;
+  price: string;
+  star: number;
+}
 
-export default async function SearchPage({
+const SearchResult = async ({
   searchParams,
 }: {
   searchParams: SearchParams;
-}) {
+}) => {
   const { location = "", startDate = "", endDate = "", numberOfGuests = "" } = searchParams;
 
   let formatedStartDate = "";
@@ -30,6 +37,7 @@ export default async function SearchPage({
   }
 
   const range = `${formatedStartDate} - ${formatedEndDate}`;
+
   const filters = [
     "Cancellation Flexibility",
     "Type of Place",
@@ -38,7 +46,7 @@ export default async function SearchPage({
     "More Filters",
   ];
 
-  const searchResult: searchResultData = await getSearchResult();
+  const searchResultData = await getSearchResult();
 
   return (
     <>
@@ -63,7 +71,7 @@ export default async function SearchPage({
                 ))}
               </div>
               <div>
-                {searchResult.map((listing, idx) => (
+                {searchResultData.map((listing: Listing, idx: number) => (
                   <ListingCard
                     key={idx}
                     img={listing.img}
@@ -78,7 +86,7 @@ export default async function SearchPage({
               </div>
             </div>
             <div className="w-[600px] z-0">
-              <Map searchResultData={searchResult} />
+              <Map searchResultData={searchResultData} />
             </div>
           </div>
         </section>
@@ -86,4 +94,6 @@ export default async function SearchPage({
       <Footer />
     </>
   );
-}
+};
+
+export default SearchResult;
