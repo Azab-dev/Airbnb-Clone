@@ -1,46 +1,32 @@
 import { format } from "date-fns";
-import { getSearchResult } from "../utils/api";
-import Header from "../components/header/Header";
 import Footer from "../components/Footer";
+import Header from "../components/header/Header";
+import { getSearchResult } from "../utils/api";
 import ListingCard from "../components/ListingCard";
 import Map from "../components/Map";
+import { searchResultData } from '@/app/types/app';
 
-// type SearchQueryParams  = {
-//   location?: string;
-//   startDate?: string;
-//   endDate?: string;
-//   numberOfGuests?: string;
-// };
-interface Listing {
-  img: string;
-  title: string;
-  description: string;
+type SearchData = {
   location: string;
-  total: string;
-  price: string;
-  star: number;
-}
-
-type Props = {
-  SearchQueryParams : {
-    location?: string;
-    startDate?: string;
-    endDate?: string;
-    numberOfGuests?: string;
-  };
+  startDate: string;
+  endDate: string;
+  numberOfGuests: string;
 };
-const SearchResult = async ({ SearchQueryParams  }: Props) => {
-  const { location = "", startDate = "", endDate = "", numberOfGuests = "" } = SearchQueryParams ;
 
-  let formatedStartDate = "";
-  let formatedEndDate = "";
+const SearchResult = async ({
+  searchData: { location, startDate, endDate, numberOfGuests },
+}: {
+  searchData: SearchData;
+}) => {
+  let formattedStartDate;
+  let formattedEndDate;
 
   if (startDate && endDate) {
-    formatedStartDate = format(new Date(startDate), "dd MMMM yy");
-    formatedEndDate = format(new Date(endDate), "dd MMMM yy");
+    formattedStartDate = format(new Date(startDate), "dd MMMM yy");
+    formattedEndDate = format(new Date(endDate), "dd MMMM yy");
   }
 
-  const range = `${formatedStartDate} - ${formatedEndDate}`;
+  const range = `${formattedStartDate} - ${formattedEndDate}`;
 
   const filters = [
     "Cancellation Flexibility",
@@ -50,7 +36,7 @@ const SearchResult = async ({ SearchQueryParams  }: Props) => {
     "More Filters",
   ];
 
-  const searchResultData = await getSearchResult();
+  const searchResultData:searchResultData = await getSearchResult();
 
   return (
     <>
@@ -75,7 +61,7 @@ const SearchResult = async ({ SearchQueryParams  }: Props) => {
                 ))}
               </div>
               <div>
-                {searchResultData.map((listing: Listing, idx: number) => (
+                {searchResultData.map((listing,idx) => (
                   <ListingCard
                     key={idx}
                     img={listing.img}
@@ -99,5 +85,4 @@ const SearchResult = async ({ SearchQueryParams  }: Props) => {
     </>
   );
 };
-
 export default SearchResult;
