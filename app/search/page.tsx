@@ -6,7 +6,6 @@
 // import Map from "../components/Map";
 // import { searchResultData } from "@/app/types/app";
 
-
 // const getSearchResult = async () => {
 //   try {
 //     const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/b/5NPS`);
@@ -22,8 +21,6 @@
 //     return [];
 //   }
 // };
-
-
 
 // type SearchData = {
 //   location: string;
@@ -106,15 +103,16 @@
 // };
 // export default SearchResult;
 
-
+"use client";
+import { useEffect, useState } from "react";
 import { format } from "date-fns";
 import Footer from "../components/Footer";
 import Header from "../components/header/Header";
 import ListingCard from "../components/ListingCard";
 import Map from "../components/Map";
-import { searchResultData } from "@/app/types/app";
+// import { searchResultData } from "@/app/types/app";
 
-// API Function to fetch the data
+// تعريف الـ API
 const getSearchResult = async () => {
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/b/5NPS`);
@@ -131,20 +129,36 @@ const getSearchResult = async () => {
   }
 };
 
-// Page Component
-const SearchResult = ({
-  searchData: { location, startDate, endDate, numberOfGuests },
-  searchResultData,
-}: {
-  searchData: { location: string; startDate: string; endDate: string; numberOfGuests: string };
-  searchResultData: searchResultData;
-}) => {
-  let formattedStartDate = "";
-  let formattedEndDate = "";
+type SearchData = {
+  location: string;
+  startDate: string;
+  endDate: string;
+  numberOfGuests: string;
+};
 
-  if (startDate && endDate) {
-    formattedStartDate = format(new Date(startDate), "dd MMMM yy");
-    formattedEndDate = format(new Date(endDate), "dd MMMM yy");
+const SearchResult = ({ searchData }: { searchData: SearchData }) => {
+
+  interface Listing {
+    img: string;
+    title: string;
+    description: string;
+    location: string;
+    total: string;
+    price: string;
+    star: number;
+    long: number;
+    lat: number;
+  }
+
+  const [searchResultData, setSearchResultData] = useState<Listing[]>([]);
+
+  // تنسيق التواريخ
+  let formattedStartDate;
+  let formattedEndDate;
+
+  if (searchData.startDate && searchData.endDate) {
+    formattedStartDate = format(new Date(searchData.startDate), "dd MMMM yy");
+    formattedEndDate = format(new Date(searchData.endDate), "dd MMMM yy");
   }
 
   const range = `${formattedStartDate} - ${formattedEndDate}`;
@@ -157,20 +171,30 @@ const SearchResult = ({
     "More Filters",
   ];
 
+  // جلب البيانات
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await getSearchResult();
+      setSearchResultData(data);
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <>
       <Header
-        placeholder={`${location} | ${range} | ${numberOfGuests} Guests`}
+        placeholder={`${searchData.location} | ${range} | ${searchData.numberOfGuests} Guests`}
       />
       <main>
         <section className="pt-10">
           <div className="container flex space-x-5">
             <div>
               <p className="text-xs">
-                300+ Stays - {range} - for {numberOfGuests} guests
+                300+ Stays - {range} - for {searchData.numberOfGuests} guests
               </p>
               <h1 className="text-3xl font-semibold my-4">
-                Stays in {location}
+                Stays in {searchData.location}
               </h1>
               <div className="hidden lg:inline-flex mb-5 space-x-3 text-gray-800">
                 {filters.map((btn) => (
@@ -203,25 +227,5 @@ const SearchResult = ({
       <Footer />
     </>
   );
-};
 
-// Fetching data on the server side
-export async function getServerSideProps() {
-  const searchData = {
-    location: "New York",
-    startDate: "2025-05-10",
-    endDate: "2025-05-15",
-    numberOfGuests: "2",
-  };
-
-  const searchResultData = await getSearchResult(); // Fetching search result data
-
-  return {
-    props: {
-      searchData,
-      searchResultData, // Passing search result data to the page
-    },
-  };
-}
-
-export default SearchResult;
+};export default SearchResult;
