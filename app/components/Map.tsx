@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { searchResultData } from "@/app/types/app";
+import { SearchResultData } from "@/app/types/app";
 import { getCenter } from "geolib";
 import "leaflet/dist/leaflet.css";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
@@ -14,7 +14,8 @@ const customMarkerIcon = L.icon({
   popupAnchor: [0, -40],
 });
 
-const Map = ({ searchResultData }: { searchResultData: searchResultData }) => {
+
+const Map = ({ searchResultData }: { searchResultData: SearchResultData }) => {
   const coordinates = searchResultData.map(() => ({
     latitude: 51.2324,
     longitude: -0.1278,

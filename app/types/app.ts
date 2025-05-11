@@ -8,19 +8,20 @@ export type LiveItems = {
   title: string;
 };
 
-export type listingCardItems = {
-  img: string,
-  location: string,
-  title: string,
-  description: string,
-  price: string,
-  total: string,
-  star: number,
-  long: number,
-  lat: number,
-}
+export type SearchResult = {
+  img: string;
+  location: string;
+  description: string;
+  price: string;
+  total: string;
+  star: number;
+  title: string;
+  lat: number;
+  long: number;
+};
+
 
 
 export type exploreData = ExploreItems[];
 export type liveData = LiveItems[];
-export type searchResultData = listingCardItems[];
+export type SearchResultData = SearchResult[];
