@@ -33,9 +33,8 @@ export const getLive = async () => {
 //     return [];
 //   }
 // };
-import { searchResultData } from '@/app/types/app';
 
-export const getSearchResult = async (): Promise<searchResultData> => {
+export const getSearchResult = async () => {
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/b/5NPS`);
     const searchResultData = await res.json();
