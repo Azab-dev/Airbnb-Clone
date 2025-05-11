@@ -6,7 +6,6 @@ import ListingCard from "../components/ListingCard";
 import Map from "../components/Map";
 import { searchResultData } from "@/app/types/app";
 
-// بيانات البحث
 type SearchData = {
   location: string;
   startDate: string;
@@ -14,7 +13,6 @@ type SearchData = {
   numberOfGuests: string;
 };
 
-// مكون صفحة SearchResult
 const SearchResult = async ({ searchData }: { searchData: SearchData }) => {
   const { location, startDate, endDate, numberOfGuests } = searchData;
 
@@ -29,6 +27,9 @@ const SearchResult = async ({ searchData }: { searchData: SearchData }) => {
 
   const range = `${formattedStartDate} - ${formattedEndDate}`;
   
+  // جلب بيانات البحث من الـ API أو من مصدر البيانات
+  const searchResult: searchResultData = await getSearchResult();
+
   // الفلاتر المعروضة
   const filters = [
     "Cancellation Flexibility",
@@ -37,9 +38,6 @@ const SearchResult = async ({ searchData }: { searchData: SearchData }) => {
     "Rooms and Beds",
     "More Filters",
   ];
-
-  // جلب بيانات البحث
-  const searchResult: searchResultData = await getSearchResult();
 
   return (
     <>
@@ -89,24 +87,7 @@ const SearchResult = async ({ searchData }: { searchData: SearchData }) => {
   );
 };
 
-// إضافة getServerSideProps في نهاية الملف
-export async function getServerSideProps() {
-  // قم بتحديد القيم الافتراضية أو قم بجلبها من الاستعلام
-  const searchData = {
-    location: "New York",
-    startDate: "2025-05-10",
-    endDate: "2025-05-15",
-    numberOfGuests: "2",
-  };
-
-  // يمكن استبدال هذا بجلب البيانات من URL أو API
-  return {
-    props: {
-      searchData,  // تمرير بيانات البحث كـ props
-    },
-  };
-}
-
+// لا حاجة لاستخدام getServerSideProps في App Folder، هنا سيتم جلب البيانات داخل المكون مباشرة.
 export default SearchResult;
 
 
