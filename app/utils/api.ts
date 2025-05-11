@@ -18,7 +18,24 @@ export const getLive = async () => {
   }
 };
 
-export const getSearchResult = async () => {
+// export const getSearchResult = async () => {
+//   try {
+//     const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/b/5NPS`);
+//     const searchResultData = await res.json();
+
+//     if (Array.isArray(searchResultData) && searchResultData.length > 1) {
+//       searchResultData[1].img = "/private.png";
+//     }
+
+//     return searchResultData;
+//   } catch (error) {
+//     console.log(error);
+//     return [];
+//   }
+// };
+import { searchResultData } from '@/app/types/app';
+
+export const getSearchResult = async (): Promise<searchResultData> => {
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/b/5NPS`);
     const searchResultData = await res.json();
